@@ -1,0 +1,11 @@
+### Test Hyperpay Webhook
+POST http://localhost:3001/api/webhooks/hyperpay
+Content-Type: application/json
+
+{
+  "event": "payment_succeeded",
+  "payment_id": "pay_123",
+  "order_id": "order_77",
+  "amount": 15000,
+  "currency": "SAR"
+}

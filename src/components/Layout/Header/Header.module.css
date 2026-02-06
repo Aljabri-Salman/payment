@@ -1,0 +1,152 @@
+.header {
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.logoText {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.searchSection {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 24px;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actionButton {
+  transition: transform 0.2s ease;
+}
+
+.actionButton:hover {
+  transform: scale(1.05);
+}
+
+.userSection {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.userSection:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.userRole {
+  font-size: 12px;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.notificationItem {
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.notificationItem:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.notificationText {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.notificationTime {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .searchSection {
+    display: none;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .userInfo {
+    display: none;
+  }
+}
+
+/* LocaleSwitch styles */
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.linkButton:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.linkContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

@@ -1,0 +1,1 @@
+export { MerchantButton } from './MerchantButton';
