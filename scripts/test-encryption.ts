@@ -40,7 +40,7 @@ import { encrypt, decrypt } from "../convex/lib/encryption";
 
   // Test 1: Basic encryption and decryption
   console.log("\n📝 Test 1: Basic Encryption/Decryption");
-  const testSecret = "whsec_stripe_abc123xyz789";
+  const testSecret = "test_webhook_secret_for_encryption_demo_only";
   const encrypted = await encrypt(testSecret);
   const decrypted = await decrypt(encrypted);
 
