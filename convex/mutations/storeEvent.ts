@@ -5,6 +5,7 @@ export const storeEvent = mutation({
   args: paymentEventValidator,
   handler: async (ctx, args) => {
     const eventId = await ctx.db.insert("paymentEvents", {
+      merchantId: args.merchantId,
       gateway: args.gateway,
       eventType: args.eventType,
       paymentId: args.paymentId,
@@ -14,6 +15,7 @@ export const storeEvent = mutation({
       status: args.status,
       rawPayload: args.rawPayload,
       receivedAt: args.receivedAt,
+      idempotencyKey: args.idempotencyKey,
     });
 
     return eventId;

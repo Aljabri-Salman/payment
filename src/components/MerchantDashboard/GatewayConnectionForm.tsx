@@ -23,6 +23,7 @@ const GATEWAY_OPTIONS: GatewayOption[] = [
   { value: 'moyasar', label: 'Moyasar' },
   { value: 'tap', label: 'Tap Payments' },
   { value: 'checkout', label: 'Checkout.com' },
+  { value: 'stripe', label: 'Stripe' },
 ];
 
 export function GatewayConnectionForm({

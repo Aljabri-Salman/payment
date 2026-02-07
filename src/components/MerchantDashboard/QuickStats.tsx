@@ -5,7 +5,7 @@ import { IconReceipt, IconPlugConnected, IconBuilding } from '@tabler/icons-reac
 import { useTranslations } from 'next-intl';
 import { QuickStatsProps } from './types';
 
-export function QuickStats({ gatewayConnectionsCount, merchantStatus }: QuickStatsProps) {
+export function QuickStats({ totalEventsCount, gatewayConnectionsCount, merchantStatus }: QuickStatsProps) {
   const t = useTranslations('MerchantDashboard');
 
   return (
@@ -18,10 +18,10 @@ export function QuickStats({ gatewayConnectionsCount, merchantStatus }: QuickSta
           </Text>
         </Group>
         <Text size="xl" fw={700}>
-          0
+          {totalEventsCount}
         </Text>
         <Text size="xs" c="dimmed" mt="xs">
-          {t('noPaymentEvents')}
+          {totalEventsCount === 0 ? t('noPaymentEvents') : t('paymentEventsReceived')}
         </Text>
       </Paper>
 

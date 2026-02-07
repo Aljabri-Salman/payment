@@ -1,5 +1,6 @@
 ### Test Hyperpay Webhook
-POST http://localhost:3001/api/webhooks/hyperpay
+# Replace {merchantId} with your actual merchant ID
+POST http://localhost:3001/api/webhooks/{merchantId}/hyperpay
 Content-Type: application/json
 
 {

@@ -5,12 +5,14 @@ export const gatewayValidator = v.union(
   v.literal("hyperpay"),
   v.literal("moyasar"),
   v.literal("tap"),
-  v.literal("checkout")
+  v.literal("checkout"),
+  v.literal("stripe")
 );
 
 // Shared validator for payment event fields
 export const paymentEventValidator = {
-  gateway: v.string(),
+  merchantId: v.id("merchants"),
+  gateway: gatewayValidator,
   eventType: v.string(),
   paymentId: v.string(),
   orderId: v.string(),
@@ -19,6 +21,7 @@ export const paymentEventValidator = {
   status: v.string(),
   rawPayload: v.any(),
   receivedAt: v.number(),
+  idempotencyKey: v.optional(v.string()),
 };
 
 // Merchant validator

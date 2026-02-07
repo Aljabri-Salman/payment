@@ -38,6 +38,7 @@ export interface DashboardHeaderProps {
  * Props for QuickStats component
  */
 export interface QuickStatsProps {
+  totalEventsCount: number;
   gatewayConnectionsCount: number;
   merchantStatus: MerchantStatus;
 }

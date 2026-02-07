@@ -89,6 +89,7 @@
     "merchantNotFound": "Merchant not found",
     "totalEvents": "Total Events",
     "noPaymentEvents": "No payment events yet",
+    "paymentEventsReceived": "Payment events received",
     "gatewayConnections": "Gateway Connections",
     "activeConnections": "Active connections",
     "noGatewaysConnected": "No gateways connected",

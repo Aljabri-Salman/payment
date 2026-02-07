@@ -89,6 +89,7 @@
     "merchantNotFound": "التاجر غير موجود",
     "totalEvents": "إجمالي الأحداث",
     "noPaymentEvents": "لا توجد أحداث دفع بعد",
+    "paymentEventsReceived": "تم استلام أحداث الدفع",
     "gatewayConnections": "اتصالات البوابة",
     "activeConnections": "اتصالات نشطة",
     "noGatewaysConnected": "لا توجد بوابات متصلة",

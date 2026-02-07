@@ -36,6 +36,10 @@ export function MerchantDashboard({ merchantId }: MerchantDashboardProps = {}) {
     api.queries.gatewayConnections.listByMerchant,
     activeMerchantId ? { merchantId: activeMerchantId } : 'skip'
   );
+  const eventsCount = useQuery(
+    api.queries.paymentEvents.countByMerchant,
+    activeMerchantId ? { merchantId: activeMerchantId } : 'skip'
+  );
 
   // Loading state
   if (merchants === undefined) {
@@ -57,7 +61,7 @@ export function MerchantDashboard({ merchantId }: MerchantDashboardProps = {}) {
   }
 
   // Loading merchant data
-  if (selectedMerchant === undefined || gatewayConnections === undefined) {
+  if (selectedMerchant === undefined || gatewayConnections === undefined || eventsCount === undefined) {
     return (
       <Center style={{ minHeight: '400px' }}>
         <Loader size="lg" />
@@ -76,6 +80,7 @@ export function MerchantDashboard({ merchantId }: MerchantDashboardProps = {}) {
       <Stack gap="xl">
         <DashboardHeader merchant={selectedMerchant} />
         <QuickStats
+          totalEventsCount={eventsCount}
           gatewayConnectionsCount={gatewayConnections.length}
           merchantStatus={selectedMerchant.status}
         />

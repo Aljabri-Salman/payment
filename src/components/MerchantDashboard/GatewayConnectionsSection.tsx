@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Paper, Group, Text, Button, Stack, SimpleGrid, Card, Badge, Title } from '@mantine/core';
-import { IconPlugConnected, IconPlus } from '@tabler/icons-react';
+import { Paper, Group, Text, Button, Stack, SimpleGrid, Card, Badge, Title, CopyButton, ActionIcon, Tooltip, TextInput } from '@mantine/core';
+import { IconPlugConnected, IconPlus, IconCopy, IconCheck } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { GatewayConnectionForm } from './GatewayConnectionForm';
 import { GatewayConnectionsSectionProps } from './types';
@@ -68,24 +68,58 @@ export function GatewayConnectionsSection({
         </Paper>
       ) : (
         <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
-          {gatewayConnections.map((connection) => (
-            <Card key={connection._id} withBorder shadow="sm" p="lg" radius="md">
-              <Stack gap="sm">
-                <Group justify="space-between">
-                  <Badge color={getGatewayColor(connection.gateway)} size="lg" variant="light">
-                    {getGatewayDisplayName(connection.gateway)}
-                  </Badge>
-                  <Badge color={connection.isActive ? 'green' : 'gray'}>
-                    {connection.isActive ? t('active') : t('inactive')}
-                  </Badge>
-                </Group>
-                <Text size="xs" c="dimmed">
-                  {t('secret')}:{' '}
-                  {connection.hasSecret ? t('secretConfigured') : t('secretNotSet')}
-                </Text>
-              </Stack>
-            </Card>
-          ))}
+          {gatewayConnections.map((connection) => {
+            // Generate webhook URL for this connection
+            const webhookUrl = typeof window !== 'undefined' 
+              ? `${window.location.origin}/api/webhooks/${merchantId}/${connection.gateway}`
+              : `/api/webhooks/${merchantId}/${connection.gateway}`;
+            
+            return (
+              <Card key={connection._id} withBorder shadow="sm" p="lg" radius="md">
+                <Stack gap="sm">
+                  <Group justify="space-between">
+                    <Badge color={getGatewayColor(connection.gateway)} size="lg" variant="light">
+                      {getGatewayDisplayName(connection.gateway)}
+                    </Badge>
+                    <Badge color={connection.isActive ? 'green' : 'gray'}>
+                      {connection.isActive ? t('active') : t('inactive')}
+                    </Badge>
+                  </Group>
+                  <Text size="xs" c="dimmed">
+                    {t('secret')}:{' '}
+                    {connection.hasSecret ? t('secretConfigured') : t('secretNotSet')}
+                  </Text>
+                  <div>
+                    <Text size="xs" fw={500} mb={4}>
+                      Webhook URL:
+                    </Text>
+                    <Group gap="xs">
+                      <TextInput
+                        size="xs"
+                        value={webhookUrl}
+                        readOnly
+                        style={{ flex: 1 }}
+                        styles={{ input: { fontSize: '11px' } }}
+                      />
+                      <CopyButton value={webhookUrl}>
+                        {({ copied, copy }) => (
+                          <Tooltip label={copied ? 'Copied!' : 'Copy URL'}>
+                            <ActionIcon
+                              color={copied ? 'teal' : 'gray'}
+                              variant="subtle"
+                              onClick={copy}
+                            >
+                              {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
+                      </CopyButton>
+                    </Group>
+                  </div>
+                </Stack>
+              </Card>
+            );
+          })}
         </SimpleGrid>
       )}
     </div>

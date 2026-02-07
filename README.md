@@ -265,10 +265,10 @@ bunx convex env set ENCRYPTION_SECRET_KEY_V2=$(openssl rand -base64 32)
 Configure Hyperpay to send webhooks to:
 
 ```
-https://your-domain.com/api/webhooks/hyperpay
+https://your-domain.com/api/webhooks/{YOUR_MERCHANT_ID}/hyperpay
 ```
 
-**Custom Header Required:** Add `X-Merchant-Id` header with your merchant ID to identify the merchant account.
+**Note:** Replace `{YOUR_MERCHANT_ID}` with your actual merchant ID from the database.
 
 **Local Testing with ngrok:**
 ```bash
@@ -276,7 +276,7 @@ https://your-domain.com/api/webhooks/hyperpay
 ngrok http 3000
 
 # Use the ngrok URL in Hyperpay dashboard
-https://your-ngrok-id.ngrok.io/api/webhooks/hyperpay
+https://your-ngrok-id.ngrok.io/api/webhooks/{YOUR_MERCHANT_ID}/hyperpay
 ```
 
 #### 3. Test Encryption
@@ -553,10 +553,9 @@ Generate a valid signature:
 # Generate signature for testing
 node -e "const crypto = require('crypto'); const secret = 'your_webhook_secret'; const payload = '{\"event\":\"payment\",\"payment_id\":\"123\",\"order_id\":\"456\",\"amount\":100,\"currency\":\"SAR\",\"status\":\"success\"}'; const sig = crypto.createHmac('sha256', secret).update(payload).digest('hex'); console.log(sig);"
 
-# Test webhook
-curl -X POST http://localhost:3000/api/webhooks/hyperpay \
+# Test webhook (replace {YOUR_MERCHANT_ID} with actual merchant ID)
+curl -X POST http://localhost:3000/api/webhooks/{YOUR_MERCHANT_ID}/hyperpay \
   -H "Content-Type: application/json" \
-  -H "x-merchant-id: test-merchant-123" \
   -H "x-signature: <generated-signature>" \
   -d '{"event":"payment","payment_id":"123","order_id":"456","amount":100,"currency":"SAR","status":"success"}'
 ```

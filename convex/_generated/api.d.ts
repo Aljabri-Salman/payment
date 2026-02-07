@@ -11,7 +11,12 @@
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as lib_encryption from "../lib/encryption.js";
-import type * as lib_webhookVerification from "../lib/webhookVerification.js";
+import type * as lib_webhookVerification_config from "../lib/webhookVerification/config.js";
+import type * as lib_webhookVerification_crypto from "../lib/webhookVerification/crypto.js";
+import type * as lib_webhookVerification_examples from "../lib/webhookVerification/examples.js";
+import type * as lib_webhookVerification_index from "../lib/webhookVerification/index.js";
+import type * as lib_webhookVerification_types from "../lib/webhookVerification/types.js";
+import type * as lib_webhookVerification_verifiers_stripe from "../lib/webhookVerification/verifiers/stripe.js";
 import type * as migrations_rotateEncryptionKeys from "../migrations/rotateEncryptionKeys.js";
 import type * as mutations_gatewayConnections from "../mutations/gatewayConnections.js";
 import type * as mutations_merchants from "../mutations/merchants.js";
@@ -19,6 +24,7 @@ import type * as mutations_storeEvent from "../mutations/storeEvent.js";
 import type * as mutations_testEncryption from "../mutations/testEncryption.js";
 import type * as queries_gatewayConnections from "../queries/gatewayConnections.js";
 import type * as queries_merchants from "../queries/merchants.js";
+import type * as queries_paymentEvents from "../queries/paymentEvents.js";
 import type * as types from "../types.js";
 import type * as validators from "../validators.js";
 
@@ -32,7 +38,12 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   "lib/encryption": typeof lib_encryption;
-  "lib/webhookVerification": typeof lib_webhookVerification;
+  "lib/webhookVerification/config": typeof lib_webhookVerification_config;
+  "lib/webhookVerification/crypto": typeof lib_webhookVerification_crypto;
+  "lib/webhookVerification/examples": typeof lib_webhookVerification_examples;
+  "lib/webhookVerification/index": typeof lib_webhookVerification_index;
+  "lib/webhookVerification/types": typeof lib_webhookVerification_types;
+  "lib/webhookVerification/verifiers/stripe": typeof lib_webhookVerification_verifiers_stripe;
   "migrations/rotateEncryptionKeys": typeof migrations_rotateEncryptionKeys;
   "mutations/gatewayConnections": typeof mutations_gatewayConnections;
   "mutations/merchants": typeof mutations_merchants;
@@ -40,6 +51,7 @@ declare const fullApi: ApiFromModules<{
   "mutations/testEncryption": typeof mutations_testEncryption;
   "queries/gatewayConnections": typeof queries_gatewayConnections;
   "queries/merchants": typeof queries_merchants;
+  "queries/paymentEvents": typeof queries_paymentEvents;
   types: typeof types;
   validators: typeof validators;
 }>;
