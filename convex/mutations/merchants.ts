@@ -2,10 +2,13 @@
  * Merchant Mutations
  * 
  * Manages merchant accounts on the platform.
+ * Includes event-driven replication for external services.
  */
 
 import { mutation } from "../_generated/server";
 import { v } from "convex/values";
+import { createReplicationEvent } from "../lib/replication";
+import { notFound, assertExists, safeExecute, ErrorCodes } from "../lib/errors";
 
 /**
  * Create a new merchant account.
@@ -15,78 +18,70 @@ export const createMerchant = mutation({
     name: v.string(),
   },
   handler: async (ctx, args) => {
-    // Check if merchant with same name already exists
-    const existing = await ctx.db
-      .query("merchants")
-      .filter((q) => q.eq(q.field("name"), args.name))
-      .first();
+    return await safeExecute(async () => {
+      const merchantData = {
+        name: args.name,
+        status: "ACTIVE" as const,
+      };
 
-    if (existing) {
-      throw new Error(`Merchant with name "${args.name}" already exists`);
-    }
+      const merchantId = await ctx.db.insert("merchants", merchantData);
 
-    const merchantId = await ctx.db.insert("merchants", {
-      name: args.name,
-      status: "ACTIVE",
-    });
+      // Create replication event with the data we just inserted
+      await createReplicationEvent(
+        ctx,
+        "merchants",
+        "INSERT",
+        merchantId.toString(),
+        merchantData
+      );
 
-    return merchantId;
+      return merchantId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
 /**
- * Update merchant status (ACTIVE or SUSPENDED).
+ * Update merchant fields (name and/or status).
+ * Replaces the separate updateStatus and updateName mutations.
  */
-export const updateStatus = mutation({
+export const updateMerchant = mutation({
   args: {
     merchantId: v.id("merchants"),
-    status: v.union(v.literal("ACTIVE"), v.literal("SUSPENDED")),
+    name: v.optional(v.string()),
+    status: v.optional(v.union(v.literal("ACTIVE"), v.literal("SUSPENDED"))),
   },
   handler: async (ctx, args) => {
-    const merchant = await ctx.db.get(args.merchantId);
+    return await safeExecute(async () => {
+      const merchant = await ctx.db.get(args.merchantId);
+      assertExists(merchant, "Merchant", args.merchantId.toString());
 
-    if (!merchant) {
-      throw new Error("Merchant not found");
-    }
+      const updates: any = {};
 
-    await ctx.db.patch(args.merchantId, {
-      status: args.status,
-    });
+      // Update name if provided
+      if (args.name !== undefined) {
+        updates.name = args.name;
+      }
 
-    return args.merchantId;
-  },
-});
+      // Update status if provided
+      if (args.status !== undefined) {
+        updates.status = args.status;
+      }
 
-/**
- * Update merchant name.
- */
-export const updateName = mutation({
-  args: {
-    merchantId: v.id("merchants"),
-    name: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const merchant = await ctx.db.get(args.merchantId);
+      // Apply updates
+      await ctx.db.patch(args.merchantId, updates);
+      
+      // Create replication event with updated data
+      const updatedData = { ...merchant, ...updates };
+      await createReplicationEvent(
+        ctx,
+        "merchants",
+        "UPDATE",
+        args.merchantId.toString(),
+        updatedData
+      );
 
-    if (!merchant) {
-      throw new Error("Merchant not found");
-    }
-
-    // Check if new name conflicts with existing merchant
-    const existing = await ctx.db
-      .query("merchants")
-      .filter((q) => q.eq(q.field("name"), args.name))
-      .first();
-
-    if (existing && existing._id !== args.merchantId) {
-      throw new Error(`Merchant with name "${args.name}" already exists`);
-    }
-
-    await ctx.db.patch(args.merchantId, {
-      name: args.name,
-    });
-
-    return args.merchantId;
+      return args.merchantId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
@@ -98,17 +93,26 @@ export const deleteMerchant = mutation({
     merchantId: v.id("merchants"),
   },
   handler: async (ctx, args) => {
-    const merchant = await ctx.db.get(args.merchantId);
+    return await safeExecute(async () => {
+      const merchant = await ctx.db.get(args.merchantId);
+      assertExists(merchant, "Merchant", args.merchantId.toString());
 
-    if (!merchant) {
-      throw new Error("Merchant not found");
-    }
+      // Soft delete by suspending
+      await ctx.db.patch(args.merchantId, {
+        status: "SUSPENDED",
+      });
 
-    // Soft delete by suspending
-    await ctx.db.patch(args.merchantId, {
-      status: "SUSPENDED",
-    });
+      // Create replication event for soft delete (UPDATE with new status)
+      const updatedData = { ...merchant, status: "SUSPENDED" as const };
+      await createReplicationEvent(
+        ctx,
+        "merchants",
+        "UPDATE",
+        args.merchantId.toString(),
+        updatedData
+      );
 
-    return { success: true };
+      return args.merchantId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });

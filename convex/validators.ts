@@ -37,3 +37,16 @@ export const gatewayConnectionValidator = {
   webhookSecretEncrypted: v.string(),
   isActive: v.boolean(),
 };
+
+export const replicationEventValidator = {
+  seq: v.number(), // Monotonically increasing sequence number
+  tableName: v.string(), // "merchants" or "gatewayConnections"
+  operation: v.union(v.literal("INSERT"), v.literal("UPDATE"), v.literal("DELETE")),
+  documentId: v.string(), // Store as string for flexibility
+  documentData: v.any(), // Full document for INSERT/UPDATE, null for DELETE
+  // Note: Convex automatically adds _creationTime to all documents
+};
+
+export const replicationCounterValidator = {
+  lastSeq: v.number(),
+};

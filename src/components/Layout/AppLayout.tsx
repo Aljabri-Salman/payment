@@ -2,7 +2,7 @@
 
 import { ReactNode, useState } from 'react';
 import { AppShell, useMantineColorScheme } from '@mantine/core';
-import { Header } from './Header';
+import { Header, Header2 } from './Header';
 import { SideBar } from './SideBar';
 
 interface AppLayoutProps {
@@ -30,10 +30,11 @@ export function AppLayout({ children }: AppLayoutProps) {
         },
       }}
     >
-      <Header 
+      {/* <Header
         mobileNavbarOpened={mobileNavbarOpened}
-        onMobileNavbarToggle={() => setMobileNavbarOpened((o) => !o)} 
-      />
+        onMobileNavbarToggle={() => setMobileNavbarOpened((o) => !o)}
+      /> */}
+      <Header2 />
       <SideBar />
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>

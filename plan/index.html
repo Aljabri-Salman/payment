@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Observability Platform - Scalability Research</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-color: #1f2937;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .nav-links a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-links i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Content Area */
+        .content {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .content-header h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Status Indicators */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* File Viewer */
+        .file-viewer {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h1>Payment Observability Platform</h1>
+                        <div class="tagline">Scalability Research & Planning</div>
+                    </div>
+                </div>
+                <div class="status status-success">
+                    <i class="fas fa-check-circle"></i>
+                    Research Complete
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h3><i class="fas fa-bars"></i> Navigation</h3>
+                <ul class="nav-links">
+                    <li><a href="#overview" class="active"><i class="fas fa-home"></i> Overview</a></li>
+                    <li><a href="#documents"><i class="fas fa-file-alt"></i> Research Documents</a></li>
+                    <li><a href="#findings"><i class="fas fa-search"></i> Key Findings</a></li>
+                    <li><a href="#timeline"><i class="fas fa-calendar-alt"></i> Implementation Timeline</a></li>
+                    <li><a href="#tech"><i class="fas fa-code"></i> Technology Stack</a></li>
+                    <li><a href="#next"><i class="fas fa-forward"></i> Next Steps</a></li>
+                </ul>
+
+                <h3 style="margin-top: 2rem;"><i class="fas fa-download"></i> Quick Links</h3>
+                <ul class="nav-links">
+                    <li><a href="RESEARCH_SUMMARY.md" download><i class="fas fa-file-pdf"></i> Download Summary</a></li>
+                    <li><a href="SCALABILITY_PLAN.md" download><i class="fas fa-download"></i> Full Plan (MD)</a></li>
+                    <li><a href="https://github.com/Aljabri-Salman/payment" target="_blank"><i class="fab fa-github"></i> GitHub Repository</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content">
+                <!-- Overview Section -->
+                <section id="overview">
+                    <div class="content-header">
+                        <h2><i class="fas fa-rocket"></i> Scalability Research Overview</h2>
+                        <p>Comprehensive analysis and planning for scaling to Stripe-level volumes (100M+ payments/day)</p>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3>Research Goal</h3>
+                            <p>Analyze current architecture and create a scalable path to handle enterprise payment volumes while maintaining reliability and performance.</p>
+                            <a href="#findings" class="card-link">View Findings <i class="fas fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Current Status</h3>
+                            <p>MVP stage with Convex + Next.js stack. Excellent for rapid development but needs evolution for scale.</p>
+                            <span class="status status-warning"><i class="fas fa-exclamation-triangle"></i> Scaling Required</span>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon">
+                                <i class="fas fa-flag-checkered"></i>
+                            </div>
+                            <h3>Target Scale</h3>
+                            <p>Stripe-level operations: 100M+ payments/day, 99.99% availability, <100ms processing latency.</p>
+                            <a href="#timeline" class="card-link">View Timeline <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Documents Section -->
+                <section id="documents" style="margin-top: 3rem;">
+                    <div class="content-header">
+                        <h2><i class="fas fa-folder-open"></i> Research Documents</h2>
+                        <p>Comprehensive analysis and planning documents</p>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <h3>Executive Summary</h3>
+                            <p>High-level overview of findings, recommendations, and immediate action items.</p>
+                            <div class="file-actions">
+                                <a href="RESEARCH_SUMMARY.md" class="btn btn-outline" target="_blank">View</a>
+                                <a href="RESEARCH_SUMMARY.md" download class="btn btn-primary">Download</a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3>Tech Stack Research</h3>
+                            <p>Detailed analysis of technology options for enterprise-scale payment processing.</p>
+                            <div class="file-actions">
+                                <a href="TECH_STACK_RESEARCH.md" class="btn btn-outline" target="_blank">View</a>
+                                <a href="TECH_STACK_RESEARCH.md" download class="btn btn-primary">Download</a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Scalability Assessment</h3>
+                            <p>In-depth evaluation of current architecture's limitations and scalability gaps.</p>
+                            <div class="file-actions">
+                                <a href="SCALABILITY_ASSESSMENT.md" class="btn btn-outline" target="_blank">View</a>
+                                <a href="SCALABILITY_ASSESSMENT.md" download class="btn btn-primary">Download</a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <h3>Scalability Plan</h3>
+                            <p>24-month phased implementation roadmap with detailed milestones and success metrics.</p>
+                            <div class="file-actions">
+                                <a href="SCALABILITY_PLAN.md" class="btn btn-outline" target="_blank">View</a>
+                                <a href="SCALABILITY_PLAN.md" download class="btn btn-primary">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Findings Section -->
+                <section id="findings" style="margin-top: 3rem;">
+                    <div class="content-header">
+                        <h2><i class="fas fa-search"></i> Key Findings</h2>
+                        <p>Critical insights from the architecture analysis</p>
+                    </div>
+
+                    <div class="file-viewer">
+                        <h3>Current Architecture Assessment</h3>
+                        
+                        <div style="margin: 1.5rem 0;">
+                            <h4 style="color: var(--success-color); margin-bottom: 1rem;">
+                                <i class="fas fa-check-circle"></i> Strengths
+                            </h4>
+                            <ul style="list-style: none; padding-left: 1rem;">
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-check" style="color: var(--success-color); position: absolute; left: 0;"></i>
+                                    Rapid development with Convex + Next.js
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-check" style="color: var(--success-color); position: absolute; left: 0;"></i>
+                                    Real-time dashboard capabilities
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-check" style="color: var(--success-color); position: absolute; left: 0;"></i>
+                                    Type-safe full-stack development
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-check" style="color: var(--success-color); position: absolute; left: 0;"></i>
+                                    Good foundation for MVP
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div style="margin: 1.5rem 0;">
+                            <h4 style="color: var(--danger-color); margin-bottom: 1rem;">
+                                <i class="fas fa-exclamation-circle"></i> Critical Gaps
+                            </h4>
+                            <ul style="list-style: none; padding-left: 1rem;">
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-times" style="color: var(--danger-color); position: absolute; left: 0;"></i>
+                                    No idempotency (risk of duplicate payments)
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-times" style="color: var(--danger-color); position: absolute; left: 0;"></i>
+                                    No rate limiting (vulnerable to DoS attacks)
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-times" style="color: var(--danger-color); position: absolute; left: 0;"></i>
+                                    Synchronous processing (latency/reliability issues)
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-times" style="color: var(--danger-color); position: absolute; left: 0;"></i>
+                                    Single database (Convex limits at ~50M records)
+                                </li>
+                                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                                    <i class="fas fa-times" style="color: var(--danger-color); position: absolute; left: 0;"></i>
+                                    Limited monitoring and observability
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Timeline Section -->
+                <section id="timeline" style="margin-top: 3rem;">
+                    <div class="content-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Implementation Timeline</h2>
+                        <p>24-month phased approach to enterprise scale</p>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h3>Phase 1: Foundation</h3>
+                            <p><strong>Months 0-3</strong><br>Establish reliability and basic scaling capabilities</p>
+                            <ul style="padding-left: 1.5rem; margin: 0.5rem 0; font-size: 0.9rem;">
+                                <li>Idempotency service (Redis)</li>
+                                <li>Rate limiting and monitoring</li>
+                                <li>Async processing foundation</li>
+                            </ul>
+                            <span class="status status-warning"><i class="fas fa-clock"></i> Immediate Priority</span>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Phase 2: Growth</h3>
+                            <p><strong>Months 3-6</strong><br>Optimize performance and prepare for higher volumes</p>
+                            <ul style="padding-left: 1.5rem; margin: 0.5rem 0; font-size: 0.9rem;">
+                                <li>Data tiering (ClickHouse + S3)</li>
+                                <li>Query optimization and caching</li>
+                                <li>Search capabilities (Elasticsearch)</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                            <h3>Phase 3: Scale</h3>
+                            <p><strong>Months 6-12</strong><br>Enterprise features and global scale preparation</p>
+                            <ul style="padding-left: 1.5rem; margin: 0.5rem 0; font-size: 0.9rem;">
+                                <li>Multi-region deployment</li>
+                                <li>Stream processing (Apache Flink)</li>
+                                <li>Advanced analytics and data lake</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3>Phase 4: Enterprise</h3>
+                            <p><strong>Months 12-24</strong><br>Stripe-scale architecture and advanced capabilities</p>
+                            <ul style="padding-left: 1.5rem; margin: 0.5rem 0; font-size: 0.9rem;">
+                                <li>Global infrastructure</li>
+                                <li>Machine learning platform</li>
+                                <li>Advanced observability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technology Stack Section -->
+                <section id="tech" style="margin-top: 3rem;">
+                    <div class="content-header">
+                        <h2><i class="fas fa-code"></i> Technology Stack</h2>
+                        <p>Recommended evolution from current to enterprise scale</p>
+                    </div>
+
+                    <div class="file-viewer">
+                        <h3>Technology Recommendations</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                            <div>
+                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">
+                                    <i class="fas fa-check-circle"></i> Keep (Current)
+                                </h4>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li>Next.js</li>
+                                    <li>Mantine UI</li>
+                                    <li>TypeScript</li>
+                                    <li>Convex (for UI/config)</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">
+                                    <i class="fas fa-plus-circle"></i> Add (Short-term)
+                                </h4>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li>Redis</li>
+                                    <li>ClickHouse</li>
+                                    <li>RabbitMQ</li>
+                                    <li>Prometheus</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 style="color: var(--warning-color); margin-bottom: 0.5rem;">
+                                    <i class="fas fa-search"></i> Evaluate (Medium-term)
+                                </h4>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li>Elasticsearch</li>
+                                    <li>Apache Flink</li>
+                                    <li>Kubernetes</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">
+                                    <i class="fas fa-rocket"></i> Build (Long-term)
+                                </h4>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li>ML platform</li>
+                                    <li>Global infrastructure</li>
+                                    <li>Advanced observability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next" style="margin-top: 3rem;">
+                    <div class="content-header">
+                        <h2><i class="fas fa-forward"></i> Next Steps</h2>
+                        <p>Immediate action items for the next 30 days</p>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Priority 1: Security & Reliability</h3>
+                            <p>Critical fixes to prevent data loss and attacks</p>
+                            <ol style="padding-left: 1.5rem; margin: 1rem 0; font-size: 0.9rem;">
+                                <li>Implement Redis-based idempotency</li>
+                                <li>Add rate limiting with token bucket algorithm</li>
+                                <li>Set up basic monitoring (Prometheus + Grafana)</li>
+                            </ol>
+                            <span class="status status-danger"><i class="fas fa-exclamation-triangle"></i> Critical</span>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <h3>Priority 2: Performance</h3>
+                            <p>Improvements for better scalability</p>
+                            <ol style="padding-left: 1.5rem; margin: 1rem 0; font-size: 0.9rem;">
+                                <li>Add async processing (RabbitMQ/SQS)</li>
+                                <li>Optimize database queries and indexes</li>
+                                <li>Implement pagination for large datasets</li>
+                            </ol>
+                            <span class="status status-warning"><i class="fas fa-clock"></i> High Priority</span>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3>Priority 3: Developer Experience</h3>
+                            <p>Tools and processes for sustainable growth</p>
+                            <ol style="padding-left: 1.5rem; margin: 1rem 0; font-size: 0.9rem;">
+                                <li>Create load testing suite</li>
+                                <li>Document scaling guidelines and runbooks</li>
+                                <li>Establish performance SLOs/SLIs</li>
+                            </ol>
+                            <span class="status status-success"><i class="fas fa-check-circle"></i> Medium Priority</span>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Payment Observability Platform</h3>
+                    <p style="color: #d1d5db; font-size: 0.9rem;">Scalability Research & Planning Document</p>
+                </div>
+                <div class="footer-links">
+                    <a href="RESEARCH_README.md">Documentation</a>
+                    <a href="https://github.com/Aljabri-Salman/payment">GitHub</a>
+                    <a href="#overview">Back to Top</a>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #374151; text-align: center; color: #9ca3af; font-size: 0.85rem;">
+                <p>Research created: February 2026 | Last updated: February 2026</p>
+                <p>This research should be reviewed quarterly based on actual growth and technology advancements.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active link
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // File download tracking
+        document.querySelectorAll('a[download]').forEach(link => {
+            link.addEventListener('click', function() {
+                const fileName = this.getAttribute('href');
+                console.log(`Downloading: ${fileName}`);
+                // You could add analytics here
+            });
+        });
+    </script>
+</body>
+</html>

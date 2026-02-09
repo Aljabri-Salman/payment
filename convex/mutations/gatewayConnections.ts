@@ -3,16 +3,20 @@
  * 
  * Manages merchant connections to payment gateways.
  * Webhook secrets are encrypted at rest using AES-256-GCM.
+ * Includes event-driven replication for external services.
  */
 
 import { mutation } from "../_generated/server";
 import { v } from "convex/values";
 import { encrypt, decrypt } from "../lib/encryption";
 import { gatewayValidator } from "../validators";
+import { createReplicationEvent } from "../lib/replication";
+import { notFound, assertExists, safeExecute, ErrorCodes, encryptionError } from "../lib/errors";
 
 /**
  * Add a new gateway connection for a merchant.
  * The webhook secret is encrypted before storage.
+ * Note: A merchant can have multiple connections to the same gateway.
  */
 export const addConnection = mutation({
   args: {
@@ -21,34 +25,32 @@ export const addConnection = mutation({
     webhookSecret: v.string(), // Plain text - will be encrypted
   },
   handler: async (ctx, args) => {
-    // Check if connection already exists
-    const existing = await ctx.db
-      .query("gatewayConnections")
-      .filter((q) =>
-        q.and(
-          q.eq(q.field("merchantId"), args.merchantId),
-          q.eq(q.field("gateway"), args.gateway)
-        )
-      )
-      .first();
+    return await safeExecute(async () => {
+      // Encrypt the webhook secret before storing
+      const encrypted = await encrypt(args.webhookSecret).catch(err => {
+        throw encryptionError(`Failed to encrypt webhook secret: ${err.message}`, 'encrypt');
+      });
 
-    if (existing) {
-      throw new Error(
-        `Gateway connection already exists for ${args.gateway}. Use updateConnection instead.`
+      const connectionData = {
+        merchantId: args.merchantId,
+        gateway: args.gateway,
+        webhookSecretEncrypted: encrypted,
+        isActive: true,
+      };
+
+      const connectionId = await ctx.db.insert("gatewayConnections", connectionData);
+
+      // Create replication event with the data we just inserted
+      await createReplicationEvent(
+        ctx,
+        "gatewayConnections",
+        "INSERT",
+        connectionId.toString(),
+        connectionData
       );
-    }
 
-    // Encrypt the webhook secret before storing
-    const encrypted = await encrypt(args.webhookSecret);
-
-    const connectionId = await ctx.db.insert("gatewayConnections", {
-      merchantId: args.merchantId,
-      gateway: args.gateway,
-      webhookSecretEncrypted: encrypted,
-      isActive: true,
-    });
-
-    return connectionId;
+      return connectionId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
@@ -61,20 +63,31 @@ export const updateConnection = mutation({
     webhookSecret: v.string(),
   },
   handler: async (ctx, args) => {
-    const connection = await ctx.db.get(args.connectionId);
+    return await safeExecute(async () => {
+      const connection = await ctx.db.get(args.connectionId);
+      assertExists(connection, "Gateway connection", args.connectionId.toString());
 
-    if (!connection) {
-      throw new Error("Gateway connection not found");
-    }
+      // Encrypt the new webhook secret
+      const encrypted = await encrypt(args.webhookSecret).catch(err => {
+        throw encryptionError(`Failed to encrypt webhook secret: ${err.message}`, 'encrypt');
+      });
 
-    // Encrypt the new webhook secret
-    const encrypted = await encrypt(args.webhookSecret);
+      await ctx.db.patch(args.connectionId, {
+        webhookSecretEncrypted: encrypted,
+      });
 
-    await ctx.db.patch(args.connectionId, {
-      webhookSecretEncrypted: encrypted,
-    });
+      // Create replication event with updated data
+      const updatedData = { ...connection, webhookSecretEncrypted: encrypted };
+      await createReplicationEvent(
+        ctx,
+        "gatewayConnections",
+        "UPDATE",
+        args.connectionId.toString(),
+        updatedData
+      );
 
-    return args.connectionId;
+      return args.connectionId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
@@ -86,17 +99,27 @@ export const toggleActive = mutation({
     connectionId: v.id("gatewayConnections"),
   },
   handler: async (ctx, args) => {
-    const connection = await ctx.db.get(args.connectionId);
+    return await safeExecute(async () => {
+      const connection = await ctx.db.get(args.connectionId);
+      assertExists(connection, "Gateway connection", args.connectionId.toString());
 
-    if (!connection) {
-      throw new Error("Gateway connection not found");
-    }
+      const newActiveState = !connection.isActive;
+      await ctx.db.patch(args.connectionId, {
+        isActive: newActiveState,
+      });
 
-    await ctx.db.patch(args.connectionId, {
-      isActive: !connection.isActive,
-    });
+      // Create replication event with updated data
+      const updatedData = { ...connection, isActive: newActiveState };
+      await createReplicationEvent(
+        ctx,
+        "gatewayConnections",
+        "UPDATE",
+        args.connectionId.toString(),
+        updatedData
+      );
 
-    return args.connectionId;
+      return args.connectionId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
@@ -108,15 +131,23 @@ export const deleteConnection = mutation({
     connectionId: v.id("gatewayConnections"),
   },
   handler: async (ctx, args) => {
-    const connection = await ctx.db.get(args.connectionId);
+    return await safeExecute(async () => {
+      const connection = await ctx.db.get(args.connectionId);
+      assertExists(connection, "Gateway connection", args.connectionId.toString());
 
-    if (!connection) {
-      throw new Error("Gateway connection not found");
-    }
+      await ctx.db.delete(args.connectionId);
 
-    await ctx.db.delete(args.connectionId);
+      // Create replication event for DELETE
+      await createReplicationEvent(
+        ctx,
+        "gatewayConnections",
+        "DELETE",
+        args.connectionId.toString(),
+        null
+      );
 
-    return { success: true };
+      return args.connectionId;
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });
 
@@ -130,28 +161,32 @@ export const getDecryptedSecret = mutation({
     gateway: gatewayValidator,
   },
   handler: async (ctx, args) => {
-    const connection = await ctx.db
-      .query("gatewayConnections")
-      .filter((q) =>
-        q.and(
-          q.eq(q.field("merchantId"), args.merchantId),
-          q.eq(q.field("gateway"), args.gateway),
-          q.eq(q.field("isActive"), true)
+    return await safeExecute(async () => {
+      const connection = await ctx.db
+        .query("gatewayConnections")
+        .filter((q) =>
+          q.and(
+            q.eq(q.field("merchantId"), args.merchantId),
+            q.eq(q.field("gateway"), args.gateway),
+            q.eq(q.field("isActive"), true)
+          )
         )
-      )
-      .first();
+        .first();
 
-    if (!connection) {
-      throw new Error(`No active connection found for ${args.gateway}`);
-    }
+      if (!connection) {
+        throw notFound(`Active ${args.gateway} connection for merchant`, args.merchantId.toString());
+      }
 
-    // Decrypt the webhook secret
-    const webhookSecret = await decrypt(connection.webhookSecretEncrypted);
+      // Decrypt the webhook secret
+      const webhookSecret = await decrypt(connection.webhookSecretEncrypted).catch(err => {
+        throw encryptionError(`Failed to decrypt webhook secret: ${err.message}`, 'decrypt');
+      });
 
-    return {
-      connectionId: connection._id,
-      webhookSecret,
-      gateway: connection.gateway,
-    };
+      return {
+        connectionId: connection._id,
+        webhookSecret,
+        gateway: connection.gateway,
+      };
+    }, ErrorCodes.DATABASE_ERROR);
   },
 });

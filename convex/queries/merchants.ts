@@ -20,6 +20,11 @@ export const getMerchant = query({
 });
 
 /**
+ * Alias for getMerchant (backward compatibility).
+ */
+export const getMerchantById = getMerchant;
+
+/**
  * List all merchants.
  */
 export const listMerchants = query({

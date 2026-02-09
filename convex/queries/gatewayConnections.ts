@@ -7,6 +7,7 @@
 
 import { query } from "../_generated/server";
 import { v } from "convex/values";
+import { sanitizeConnection } from "../lib/helpers";
 
 /**
  * Get a specific gateway connection (without decrypted secret).
@@ -31,14 +32,7 @@ export const getConnection = query({
       return null;
     }
 
-    // Return connection without exposing the encrypted secret
-    return {
-      _id: connection._id,
-      merchantId: connection.merchantId,
-      gateway: connection.gateway,
-      isActive: connection.isActive,
-      hasSecret: !!connection.webhookSecretEncrypted,
-    };
+    return sanitizeConnection(connection);
   },
 });
 
@@ -55,13 +49,7 @@ export const listByMerchant = query({
       .filter((q) => q.eq(q.field("merchantId"), args.merchantId))
       .collect();
 
-    return connections.map((conn) => ({
-      _id: conn._id,
-      merchantId: conn.merchantId,
-      gateway: conn.gateway,
-      isActive: conn.isActive,
-      hasSecret: !!conn.webhookSecretEncrypted,
-    }));
+    return connections.map(sanitizeConnection);
   },
 });
 
