@@ -1,0 +1,146 @@
+/* [project]/ui/src/components/Layout/Header/Header.module.css [app-client] (css) */
+.Header-module__gDmPGq__header {
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+}
+
+.Header-module__gDmPGq__leftSection {
+  align-items: center;
+  gap: 16px;
+  display: flex;
+}
+
+.Header-module__gDmPGq__logoLink {
+  color: inherit;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  display: flex;
+}
+
+.Header-module__gDmPGq__logoIcon {
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+}
+
+.Header-module__gDmPGq__logoText {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.Header-module__gDmPGq__searchSection {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 24px;
+}
+
+.Header-module__gDmPGq__rightSection {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.Header-module__gDmPGq__actionButton {
+  transition: transform .2s;
+}
+
+.Header-module__gDmPGq__actionButton:hover {
+  transform: scale(1.05);
+}
+
+.Header-module__gDmPGq__userSection {
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 6px 12px;
+  transition: background-color .2s;
+}
+
+.Header-module__gDmPGq__userSection:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.Header-module__gDmPGq__userInfo {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+
+.Header-module__gDmPGq__userName {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.Header-module__gDmPGq__userRole {
+  opacity: .7;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.Header-module__gDmPGq__notificationItem {
+  border-radius: 8px;
+  padding: 12px;
+  transition: background-color .2s;
+}
+
+.Header-module__gDmPGq__notificationItem:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.Header-module__gDmPGq__notificationText {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.Header-module__gDmPGq__notificationTime {
+  opacity: .6;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .Header-module__gDmPGq__header {
+    padding: 0 16px;
+  }
+
+  .Header-module__gDmPGq__searchSection, .Header-module__gDmPGq__logoText, .Header-module__gDmPGq__userInfo {
+    display: none;
+  }
+}
+
+.Header-module__gDmPGq__link {
+  color: inherit;
+  align-items: center;
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.Header-module__gDmPGq__linkButton {
+  text-align: left;
+  border-radius: 8px;
+  width: 100%;
+  padding: 8px 16px;
+  transition: background-color .2s;
+}
+
+.Header-module__gDmPGq__linkButton:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.Header-module__gDmPGq__linkContent {
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+/*# sourceMappingURL=ui_src_components_Layout_Header_Header_module_css_bad6b30c._.single.css.map*/

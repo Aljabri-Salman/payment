@@ -4,6 +4,7 @@
  * Read-only queries for merchant data.
  */
 
+import { paginationOptsValidator } from "convex/server";
 import { query } from "../_generated/server";
 import { v } from "convex/values";
 
@@ -28,8 +29,10 @@ export const getMerchantById = getMerchant;
  * List all merchants.
  */
 export const listMerchants = query({
-  handler: async (ctx) => {
-    return await ctx.db.query("merchants").collect();
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    return await ctx.db.query("merchants")
+    .paginate(args.paginationOpts)
   },
 });
 

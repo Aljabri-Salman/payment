@@ -2,9 +2,12 @@
   "name": "payments",
   "version": "0.1.0",
   "private": true,
+  "workspaces": ["ui", "services/*"],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev:ui": "cd ui && bun run next dev",
+    "dev:events": "cd services/events && bun run dev",
+    "build:ui": "cd ui && bun run build",
+    "build:events": "cd services/events && bun run build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -15,6 +18,8 @@
     "@tabler/icons-react": "^3.36.1",
     "better-auth": "1.4.9",
     "convex": "^1.31.7",
+    "drizzle-orm": "^0.45.1",
+    "kysely-bun-sqlite": "^0.4.0",
     "next": "16.1.6",
     "next-intl": "^4.8.2",
     "react": "19.2.3",
@@ -22,9 +27,11 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "typescript": "^5"

@@ -8,6 +8,7 @@
 import { query } from "../_generated/server";
 import { v } from "convex/values";
 import { sanitizeConnection } from "../lib/helpers";
+import { paginationOptsValidator } from "convex/server";
 
 /**
  * Get a specific gateway connection (without decrypted secret).
@@ -74,5 +75,18 @@ export const isActive = query({
       .first();
 
     return !!connection;
+  },
+});
+
+/**
+ * List all gateway connections.
+ */
+export const listGatewayConnections = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const connections = await ctx.db
+      .query("gatewayConnections")
+      .paginate(args.paginationOpts);
+    return connections;
   },
 });

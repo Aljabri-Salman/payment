@@ -1,0 +1,20 @@
+[00:00:02.464] Server  LOG     ✓ Ready in 1810ms
+[00:00:07.865] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:07.973] Server  ERROR   ⨯ ResponseAborted
+[00:00:10.386] Browser ERROR   uncaughtError: Error: [CONVEX Q(queries/merchants:listMerchants)] [Request ID: 276a18df0e056790] Server Error
+ArgumentValidationError: Object is missing the required field `paginationOpts`. Consider wrapping the field validator in `v.optional(...)` if this is expected.
+
+Object: {}
+Validator: v.object({paginationOpts: v.object({cursor: v.union(v.string(), v.null()), endCursor: v.optional(v.union(v.string(), v.null())), id: v.optional(v.float64()), maximumBytesRead: v.optional(v.float64()), maximumRowsRead: v.optional(v.float64()), numItems: v.float64()})})
+
+
+  Called by client
+[00:00:13.987] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:15.671] Browser ERROR   uncaughtError: Error: [CONVEX Q(queries/merchants:listMerchants)] [Request ID: f3a14dde5345c3a0] Server Error
+ArgumentValidationError: Object is missing the required field `paginationOpts`. Consider wrapping the field validator in `v.optional(...)` if this is expected.
+
+Object: {}
+Validator: v.object({paginationOpts: v.object({cursor: v.union(v.string(), v.null()), endCursor: v.optional(v.union(v.string(), v.null())), id: v.optional(v.float64()), maximumBytesRead: v.optional(v.float64()), maximumRowsRead: v.optional(v.float64()), numItems: v.float64()})})
+
+
+  Called by client

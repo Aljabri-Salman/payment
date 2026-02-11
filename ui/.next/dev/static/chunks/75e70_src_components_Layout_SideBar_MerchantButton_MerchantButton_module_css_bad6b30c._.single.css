@@ -1,0 +1,16 @@
+/* [project]/ui/src/components/Layout/SideBar/MerchantButton/MerchantButton.module.css [app-client] (css) */
+.MerchantButton-module__Po6DiW__merchant {
+  width: 100%;
+  padding: var(--mantine-spacing-xs);
+  border-radius: var(--mantine-radius-sm);
+  color: var(--lightningcss-light, var(--mantine-color-black)) var(--lightningcss-dark, var(--mantine-color-white));
+  transition: background-color .1s;
+  display: block;
+}
+
+.MerchantButton-module__Po6DiW__merchant:hover {
+  background-color: var(--lightningcss-light, var(--mantine-color-gray-0)) var(--lightningcss-dark, var(--mantine-color-dark-6));
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=75e70_src_components_Layout_SideBar_MerchantButton_MerchantButton_module_css_bad6b30c._.single.css.map*/
