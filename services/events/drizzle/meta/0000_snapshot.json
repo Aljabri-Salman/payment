@@ -1,79 +1,191 @@
 {
-  "version": "6",
-  "dialect": "sqlite",
-  "id": "39f83459-299f-458d-a406-10efe71d11f6",
+  "id": "2f1f2c95-c313-4fcd-ac02-15a1763b3d3c",
   "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "events": {
-      "name": "events",
+    "public.gateway_connections": {
+      "name": "gateway_connections",
+      "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
+        "_id": {
+          "name": "_id",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
-        "event_type": {
-          "name": "event_type",
+        "merchant_id": {
+          "name": "merchant_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "payload": {
-          "name": "payload",
+        "gateway": {
+          "name": "gateway",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "source": {
-          "name": "source",
+        "webhook_secret_encrypted": {
+          "name": "webhook_secret_encrypted",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "gateway_connections_merchant_id_merchants__id_fk": {
+          "name": "gateway_connections_merchant_id_merchants__id_fk",
+          "tableFrom": "gateway_connections",
+          "tableTo": "merchants",
+          "columnsFrom": [
+            "merchant_id"
+          ],
+          "columnsTo": [
+            "_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.merchants": {
+      "name": "merchants",
+      "schema": "",
+      "columns": {
+        "_id": {
+          "name": "_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
         },
-        "received_at": {
-          "name": "received_at",
-          "type": "integer",
+        "name": {
+          "name": "name",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(strftime('%s', 'now'))"
+          "notNull": true
         },
-        "processed": {
-          "name": "processed",
-          "type": "integer",
+        "status": {
+          "name": "status",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "0"
-        },
-        "processed_at": {
-          "name": "processed_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.replication_events": {
+      "name": "replication_events",
+      "schema": "",
+      "columns": {
+        "_id": {
+          "name": "_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "seq": {
+          "name": "seq",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "table_name": {
+          "name": "table_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "operation": {
+          "name": "operation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "document_id": {
+          "name": "document_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "document_data": {
+          "name": "document_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creation_time": {
+          "name": "creation_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "replicated_at": {
+          "name": "replicated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "processed": {
+          "name": "processed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "retry_count": {
+          "name": "retry_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "replication_events_seq_unique": {
+          "name": "replication_events_seq_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "seq"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
-  "views": {},
   "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
-    "indexes": {}
+    "tables": {}
   }
 }

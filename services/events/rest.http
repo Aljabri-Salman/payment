@@ -1,11 +1,11 @@
 # Test Metrics Endpoint
-GET http://localhost:3001/metrics
+GET http://localhost:3001/debug/metrics
 Content-Type: application/json
-
 {
   "e": "test_event",
   "m": "test_metric",
 }
+
 
 ### Test Hyperpay Webhook
 # Replace {merchantId} with your actual merchant ID

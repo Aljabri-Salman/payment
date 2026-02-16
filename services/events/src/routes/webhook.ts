@@ -7,7 +7,6 @@ export default new Elysia({ prefix: '' })
   .post('/:gateway-connection',
     async ({ params, set, request }) => {
       const { "gateway-connection": gatewayConnectionId } = params
-      
       // Get raw body
       const rawBody = await request.text()
       const contentLength = parseInt(request.headers.get('content-length') || '0')

@@ -3,7 +3,6 @@ import { setupRoutes } from './routes'
 import { Replicate } from './db/replicate'
 
 const replicate = new Replicate()
-
 const app = new Elysia()
 
 setupRoutes(app)

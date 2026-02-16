@@ -1,4 +1,3 @@
-
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
 export interface LoggerOptions {
@@ -142,4 +141,4 @@ export const createLogger = (options: LoggerOptions = {}): Logger => {
   return new Logger(options);
 };
 
-export const defaultLogger = createLogger();
+export const defaultLogger = createLogger({isDev: true});

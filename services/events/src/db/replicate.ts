@@ -1,6 +1,6 @@
 // TODO: ensure the functionality of the replication
 
-import { migrate } from "drizzle-orm/bun-sqlite/migrator";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { sql, eq } from 'drizzle-orm'
 import * as schema from "./schema";
 import { db } from "./database";
@@ -144,8 +144,8 @@ export class Replicate {
       .onConflictDoUpdate({
         target: schema.merchants._id,
         set: {
-          name: sql`excluded.name`,
-          status: sql`excluded.status`
+          name: sql`EXCLUDED.name`,
+          status: sql`EXCLUDED.status`
         }
       });
   }
@@ -174,8 +174,9 @@ export class Replicate {
       .onConflictDoUpdate({
         target: schema.gatewayConnections._id,
         set: {
-          merchantId: sql`excluded.merchant_id`,
-          gateway: sql`excluded.gateway`
+          merchantId: sql`EXCLUDED.merchant_id`,
+          gateway: sql`EXCLUDED.gateway`,
+          webhookSecretEncrypted: sql`EXCLUDED.webhook_secret_encrypted`
         }
       });
 
@@ -229,8 +230,8 @@ export class Replicate {
           .onConflictDoUpdate({
             target: schema.merchants._id,
             set: {
-              name: sql`excluded.name`,
-              status: sql`excluded.status`
+              name: sql`EXCLUDED.name`,
+              status: sql`EXCLUDED.status`
             }
           });
 
@@ -278,9 +279,9 @@ export class Replicate {
           .onConflictDoUpdate({
             target: schema.gatewayConnections._id,
             set: {
-              merchantId: sql`excluded.merchant_id`,
-              gateway: sql`excluded.gateway`,
-              webhookSecretEncrypted: sql`excluded.webhook_secret_encrypted`
+              merchantId: sql`EXCLUDED.merchant_id`,
+              gateway: sql`EXCLUDED.gateway`,
+              webhookSecretEncrypted: sql`EXCLUDED.webhook_secret_encrypted`
             }
           });
 

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { TTLCache } from "./db/cache";
 import { getVerifier } from "./verify/registry";
 import type { VerificationResult } from "./verify/interface";
-import { defaultLogger } from "./utils";
+import { defaultLogger, errors } from "./utils";
 
 const logger = defaultLogger.child({ component: 'handler2' });
 
@@ -14,58 +14,6 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 const gatewayConnectionsCache = new TTLCache<string, schema.GatewayConnectionDecrypt>();
 const CACHE_KEY_PREFIX = 'gateway_connection:';
 gatewayConnectionsCache.startCleanup(CACHE_TTL_MS);
-
-// Error classes
-abstract class WebhookError extends Error {
-  abstract status: number;
-  abstract code: string;
-  
-  constructor(message: string) {
-    super(message);
-    this.name = this.constructor.name;
-  }
-  
-  toResponse() {
-    return {
-      status: this.status,
-      data: {
-        success: false,
-        error: { code: this.code, message: this.message },
-        meta: { timestamp: new Date().toISOString(), version: '1.0.0' }
-      }
-    };
-  }
-}
-
-class BadRequestError extends WebhookError {
-  status = 400;
-  code = 'BAD_REQUEST';
-}
-
-class GatewayNotFoundError extends WebhookError {
-  status = 404;
-  code = 'GATEWAY_NOT_FOUND';
-}
-
-class DecryptionError extends WebhookError {
-  status = 500;
-  code = 'DECRYPTION_FAILED';
-}
-
-class VerificationError extends WebhookError {
-  status = 401;
-  code = 'VERIFICATION_FAILED';
-}
-
-class VerifierNotFoundError extends WebhookError {
-  status = 501;
-  code = 'NOT_IMPLEMENTED';
-}
-
-class InternalServerError extends WebhookError {
-  status = 500;
-  code = 'INTERNAL_ERROR';
-}
 
 interface WebhookRequest {
   gatewayConnectionId: string;
@@ -87,7 +35,7 @@ interface WebhookResponse {
 export class WebhookHandler {
   private static loadingLocks = new Map<string, Promise<schema.GatewayConnectionDecrypt>>();
   private static MAX_BODY_SIZE = 1024 * 1024; // 1MB
-  
+
   private request: WebhookRequest;
   private connection?: schema.GatewayConnectionDecrypt;
 
@@ -99,17 +47,17 @@ export class WebhookHandler {
     try {
       // 1. Validate request
       this.validateRequest();
-      
+
       // 2. Get gateway connection with decrypted secret
       this.connection = await this.getGatewayConnection();
-      
+
       // 3. Verify payload signature
       const verificationResult = await this.verifyPayload();
-      
+
       if (!verificationResult.isValid) {
-        throw new VerificationError(verificationResult.error || 'Invalid signature');
+        throw new errors.VerificationError(verificationResult.error || 'Invalid signature');
       }
-      
+
       // 4. Return success response
       return {
         status: 200,
@@ -122,57 +70,57 @@ export class WebhookHandler {
           meta: { timestamp: new Date().toISOString(), version: '1.0.0' }
         }
       };
-      
+
     } catch (error) {
-      if (error instanceof WebhookError) {
+      if (error instanceof errors.WebhookError) {
         logger[error.status >= 500 ? 'error' : 'warn'](error.message, {
           gatewayConnectionId: this.request.gatewayConnectionId,
           error: error.code
         });
         return error.toResponse();
       }
-      
+
       // Unexpected error
       logger.error('Unexpected error in webhook handler', {
         gatewayConnectionId: this.request.gatewayConnectionId,
         error: String(error)
       });
-      
-      return new InternalServerError('An unexpected error occurred').toResponse();
+
+      return new errors.InternalServerError('An unexpected error occurred').toResponse();
     }
   }
 
   private validateRequest(): void {
     if (!this.request.gatewayConnectionId) {
-      throw new BadRequestError('Gateway connection ID is required');
+      throw new errors.BadRequestError('Gateway connection ID is required');
     }
-    
+
     const size = this.request.contentLength || this.request.rawBody.length;
     if (size > WebhookHandler.MAX_BODY_SIZE) {
-      throw new BadRequestError(`Payload too large (${size} bytes, max ${WebhookHandler.MAX_BODY_SIZE})`);
+      throw new errors.BadRequestError(`Payload too large (${size} bytes, max ${WebhookHandler.MAX_BODY_SIZE})`);
     }
   }
 
   private async getGatewayConnection(): Promise<schema.GatewayConnectionDecrypt> {
     const cacheKey = CACHE_KEY_PREFIX + this.request.gatewayConnectionId;
-    
+
     // Check cache first
     const cached = gatewayConnectionsCache.get(cacheKey);
     if (cached) {
       logger.debug('Cache hit for gateway connection', { gatewayConnectionId: this.request.gatewayConnectionId });
       return cached;
     }
-    
+
     // Check if already loading
     if (WebhookHandler.loadingLocks.has(cacheKey)) {
       logger.debug('Waiting for existing load', { gatewayConnectionId: this.request.gatewayConnectionId });
       return await WebhookHandler.loadingLocks.get(cacheKey)!;
     }
-    
+
     // Create loading promise
     const loadPromise = this.loadGatewayConnectionFromDb();
     WebhookHandler.loadingLocks.set(cacheKey, loadPromise);
-    
+
     try {
       const connection = await loadPromise;
       gatewayConnectionsCache.set(cacheKey, connection, CACHE_TTL_MS);
@@ -184,60 +132,60 @@ export class WebhookHandler {
 
   private async loadGatewayConnectionFromDb(): Promise<schema.GatewayConnectionDecrypt> {
     const startTime = Date.now();
-    
+
     const result = await db.select()
       .from(schema.gatewayConnections)
       .where(eq(schema.gatewayConnections._id, this.request.gatewayConnectionId))
       .leftJoin(schema.merchants, eq(schema.gatewayConnections.merchantId, schema.merchants._id))
       .then(rows => rows[0]);
-    
+
     if (!result || !result.gateway_connections) {
-      throw new GatewayNotFoundError(`Gateway connection not found for ID: ${this.request.gatewayConnectionId}`);
+      throw new errors.GatewayNotFoundError(`Gateway connection not found for ID: ${this.request.gatewayConnectionId}`);
     }
-    
+
     try {
       const decryptedSecret = await decrypt(result.gateway_connections.webhookSecretEncrypted);
-      
+
       const connection: schema.GatewayConnectionDecrypt = {
         ...result.gateway_connections,
         decryptedWebhookSecret: decryptedSecret,
       };
-      
+
       const duration = Date.now() - startTime;
-      logger.debug('Gateway connection loaded from DB', { 
-        gatewayConnectionId: this.request.gatewayConnectionId, 
-        duration 
+      logger.debug('Gateway connection loaded from DB', {
+        gatewayConnectionId: this.request.gatewayConnectionId,
+        duration
       });
-      
+
       return connection;
     } catch (error) {
       logger.error(`Decryption failed for connection ${this.request.gatewayConnectionId}`, { error: String(error) });
-      throw new DecryptionError(`Failed to decrypt webhook secret for connection ${this.request.gatewayConnectionId}`);
+      throw new errors.DecryptionError(`Failed to decrypt webhook secret for connection ${this.request.gatewayConnectionId}`);
     }
   }
 
   private async verifyPayload(): Promise<VerificationResult> {
     if (!this.connection) {
-      throw new InternalServerError('Connection not loaded');
+      throw new errors.InternalServerError('Connection not loaded');
     }
-    
+
     const verifier = getVerifier(this.connection.gateway);
-    
+
     if (!verifier) {
-      throw new VerifierNotFoundError(`No verifier found for gateway type: ${this.connection.gateway}`);
+      throw new errors.VerifierNotFoundError(`No verifier found for gateway type: ${this.connection.gateway}`);
     }
-    
+
     try {
       return await verifier.verify(
-        this.request.rawBody, 
-        this.request.headers, 
+        this.request.rawBody,
+        this.request.headers,
         this.connection.decryptedWebhookSecret || ''
       );
     } catch (error) {
       if (error instanceof Error) {
-        throw new VerificationError(error.message);
+        throw new errors.VerificationError(error.message);
       }
-      throw new VerificationError('Verification failed');
+      throw new errors.VerificationError('Verification failed');
     }
   }
 }
