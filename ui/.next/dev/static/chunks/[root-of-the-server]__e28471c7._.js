@@ -465,7 +465,7 @@ function triggerUpdate(msg) {
 "[hmr-entry]/hmr-entry.js { ENTRY => \"[project]/ui/pages/_app\" }", ((__turbopack_context__) => {
 "use strict";
 
-__turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/node_modules/next/app.js [client] (ecmascript)\" } [client] (ecmascript)");
+__turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/node_modules/.bun/next@16.1.6+67f6792bdf102c28/node_modules/next/app.js [client] (ecmascript)\" } [client] (ecmascript)");
 }),
 ]);
 

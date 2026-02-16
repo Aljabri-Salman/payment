@@ -1,0 +1,1 @@
+ALTER TABLE `gateway_connections` ADD `webhook_secret_encrypted` text NOT NULL;

@@ -1,0 +1,22 @@
+# Test Metrics Endpoint
+GET http://localhost:3001/metrics
+Content-Type: application/json
+
+{
+  "e": "test_event",
+  "m": "test_metric",
+}
+
+### Test Hyperpay Webhook
+# Replace {merchantId} with your actual merchant ID
+POST http://localhost:3001/jd79tfbtqm1wjz90e0yr3ec3r980zsp4
+Content-Type: application/json
+
+{
+  "event": "payment_succeeded",
+  "payment_id": "pay_123",
+  "order_id": "order_77",
+  "amount": 15000,
+  "currency": "SAR"
+}
+

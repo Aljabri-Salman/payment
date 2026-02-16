@@ -1,20 +1,474 @@
-[00:00:02.464] Server  LOG     ✓ Ready in 1810ms
-[00:00:07.865] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.973] Server  ERROR   ⨯ ResponseAborted
-[00:00:10.386] Browser ERROR   uncaughtError: Error: [CONVEX Q(queries/merchants:listMerchants)] [Request ID: 276a18df0e056790] Server Error
-ArgumentValidationError: Object is missing the required field `paginationOpts`. Consider wrapping the field validator in `v.optional(...)` if this is expected.
+[00:00:05.086] Server  LOG     ✓ Ready in 4s
+[00:00:16.178] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:34.667] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:31.070] Browser LOG     Attempting reconnect in 90ms
+[00:06:32.065] Browser LOG     WebSocket reconnected at t=358.6s after disconnect due to InactiveServer
+[00:09:02.961] Server  LOG     ✓ Compiled in 62ms
+[00:09:24.389] Server  LOG     ✓ Compiled in 195ms
+[00:09:35.212] Server  LOG     ✓ Compiled in 85ms
+[00:10:02.747] Server  LOG     ✓ Compiled in 274ms
+[00:10:29.098] Server  LOG     ✓ Compiled in 17ms
+[00:10:30.065] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
 
-Object: {}
-Validator: v.object({paginationOpts: v.object({cursor: v.union(v.string(), v.null()), endCursor: v.optional(v.union(v.string(), v.null())), id: v.optional(v.float64()), maximumBytesRead: v.optional(v.float64()), maximumRowsRead: v.optional(v.float64()), numItems: v.float64()})})
+Expected '</', got '{'
 
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
 
-  Called by client
-[00:00:13.987] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:15.671] Browser ERROR   uncaughtError: Error: [CONVEX Q(queries/merchants:listMerchants)] [Request ID: f3a14dde5345c3a0] Server Error
-ArgumentValidationError: Object is missing the required field `paginationOpts`. Consider wrapping the field validator in `v.optional(...)` if this is expected.
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:23.210] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
 
-Object: {}
-Validator: v.object({paginationOpts: v.object({cursor: v.union(v.string(), v.null()), endCursor: v.optional(v.union(v.string(), v.null())), id: v.optional(v.float64()), maximumBytesRead: v.optional(v.float64()), maximumRowsRead: v.optional(v.float64()), numItems: v.float64()})})
+Expected '</', got '{'
 
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
 
-  Called by client
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:24.228] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:25.526] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:26.392] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:26.392] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:28.214] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:30.214] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:31.644] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:31.792] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:31.906] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:12:42.264] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:145:7
+Parsing ecmascript source code failed
+  143 |         </SimpleGrid>
+  144 |
+> 145 |       {editingConnection && (
+      |       ^
+  146 |         <Paper withBorder p="lg" radius="md" mt="lg">
+  147 |           <GatewayConnectionEditForm
+  148 |             connection={gatewayConnections.find(c => c._id === editingConnection)!}
+
+Expected '</', got '{'
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:14:04.061] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:161:21
+Parsing ecmascript source code failed
+  159 |       )}
+  160 |                       </CopyButton>
+> 161 |                     </Group>
+      |                     ^
+  162 |                   </div>
+  163 |                 </Stack>
+  164 |               </Card>
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:14:04.061] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:161:22
+Parsing ecmascript source code failed
+  159 |       )}
+  160 |                       </CopyButton>
+> 161 |                     </Group>
+      |                      ^^^^^^^
+  162 |                   </div>
+  163 |                 </Stack>
+  164 |               </Card>
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:14:41.170] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:161:21
+Parsing ecmascript source code failed
+  159 |       )}
+  160 |                       </CopyButton>
+> 161 |                     </Group>
+      |                     ^
+  162 |                   </div>
+  163 |                 </Stack>
+  164 |               </Card>
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:14:41.170] Browser ERROR   ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx:161:22
+Parsing ecmascript source code failed
+  159 |       )}
+  160 |                       </CopyButton>
+> 161 |                     </Group>
+      |                      ^^^^^^^
+  162 |                   </div>
+  163 |                 </Stack>
+  164 |               </Card>
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component Browser]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./ui/src/components/MerchantDashboard/GatewayConnectionsSection.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Client Component SSR]
+    ./ui/src/components/MerchantDashboard/MerchantDashboard.tsx [Server Component]
+    ./ui/src/app/[locale]/[merchant]/page.tsx [Server Component]
+[00:14:45.422] Server  LOG     ✓ Compiled in 443ms
+[00:15:39.424] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:30.062] Browser LOG     Attempting reconnect in 105ms
+[00:21:31.064] Browser LOG     WebSocket reconnected at t=352.2s after disconnect due to InactiveServer
+[08:17:24.804] Browser LOG     WebSocket closed with code 1006
+[08:17:24.804] Browser LOG     Attempting reconnect in 2049ms
+[08:17:28.343] Browser LOG     WebSocket reconnected at t=28909.5s after disconnect due to closed with code 1006
+[08:17:29.124] Browser LOG     Attempting reconnect in 1191ms
+[08:17:31.540] Browser LOG     WebSocket reconnected at t=28912.7s after disconnect due to closed with code 1005
+[08:23:27.074] Browser LOG     WebSocket closed with code 1006
+[08:23:27.074] Browser LOG     Attempting reconnect in 966ms
+[08:23:30.064] Browser LOG     WebSocket reconnected at t=29271s after disconnect due to closed with code 1006
+[08:29:26.059] Browser LOG     WebSocket closed with code 1006
+[08:29:26.059] Browser LOG     Attempting reconnect in 1030ms
+[08:29:32.070] Browser LOG     WebSocket reconnected at t=29633s after disconnect due to closed with code 1006
+[08:34:30.068] Browser LOG     WebSocket closed with code 1006
+[08:34:30.068] Browser LOG     Attempting reconnect in 1387ms
+[08:34:37.061] Browser LOG     WebSocket reconnected at t=29937.3s after disconnect due to closed with code 1006
+[08:35:10.060] Browser LOG     WebSocket closed with code 1006
+[08:35:10.060] Browser LOG     Attempting reconnect in 653ms
+[08:35:13.062] Browser LOG     WebSocket closed with code 1006
+[08:35:13.062] Browser LOG     Attempting reconnect in 2172ms
+[08:35:46.076] Browser LOG     WebSocket closed with code 1006
+[08:35:46.076] Browser LOG     Attempting reconnect in 2585ms
+[08:35:59.070] Browser LOG     WebSocket closed with code 1006
+[08:35:59.070] Browser LOG     Attempting reconnect in 11575ms
+[08:36:14.072] Browser LOG     WebSocket reconnected at t=30034.4s after disconnect due to closed with code 1006
+[08:42:15.071] Browser LOG     Attempting reconnect in 148ms
+[08:42:25.068] Browser LOG     WebSocket closed with code 1006
+[08:42:25.068] Browser LOG     Attempting reconnect in 2739ms
+[08:42:29.072] Browser LOG     WebSocket reconnected at t=30409.4s after disconnect due to InactiveServer
+[08:47:45.060] Browser LOG     WebSocket closed with code 1006
+[08:47:45.060] Browser LOG     Attempting reconnect in 1133ms
+[08:47:48.078] Browser LOG     WebSocket reconnected at t=30728.7s after disconnect due to closed with code 1006
+[08:53:44.065] Browser LOG     Attempting reconnect in 63ms
+[08:53:54.061] Browser LOG     WebSocket closed with code 1006
+[08:53:54.061] Browser LOG     Attempting reconnect in 1242ms
+[08:53:57.061] Browser LOG     WebSocket reconnected at t=31098.1s after disconnect due to InactiveServer
+[08:59:59.060] Browser LOG     Attempting reconnect in 123ms
+[09:00:09.073] Browser LOG     WebSocket closed with code 1006
+[09:00:09.074] Browser LOG     Attempting reconnect in 2238ms
+[09:00:13.060] Browser LOG     WebSocket reconnected at t=31473.6s after disconnect due to InactiveServer
+[09:06:04.068] Browser LOG     Attempting reconnect in 52ms
+[09:06:14.074] Browser LOG     WebSocket closed with code 1006
+[09:06:14.074] Browser LOG     Attempting reconnect in 2411ms
+[09:06:18.073] Browser LOG     WebSocket reconnected at t=31838.5s after disconnect due to InactiveServer
+[09:12:19.067] Browser LOG     Attempting reconnect in 135ms
+[09:12:29.059] Browser LOG     WebSocket closed with code 1006
+[09:12:29.059] Browser LOG     Attempting reconnect in 2685ms
+[09:12:33.068] Browser LOG     WebSocket reconnected at t=32213.7s after disconnect due to InactiveServer
+[09:21:03.974] Browser LOG     WebSocket closed with code 1006
+[09:21:03.974] Browser LOG     Attempting reconnect in 1111ms
+[09:21:07.072] Browser LOG     WebSocket reconnected at t=32727.7s after disconnect due to closed with code 1006
+[09:26:33.153] Browser LOG     WebSocket closed with code 1006
+[09:26:33.153] Browser LOG     Attempting reconnect in 857ms
+[09:26:35.061] Browser LOG     WebSocket reconnected at t=33055.7s after disconnect due to closed with code 1006
+[17:52:16.423] Browser LOG     WebSocket closed with code 1006
+[17:52:16.423] Browser LOG     Attempting reconnect in 659ms
+[17:52:18.068] Browser LOG     WebSocket reconnected at t=63398.8s after disconnect due to closed with code 1006
+[17:52:19.062] Browser LOG     WebSocket reconnected at t=63400.1s
+[18:35:17.789] Browser LOG     WebSocket closed with code 1006
+[18:35:17.789] Browser LOG     Attempting reconnect in 726ms
+[18:35:19.065] Browser LOG     WebSocket reconnected at t=65980.1s after disconnect due to closed with code 1006
+[18:36:39.997] Browser LOG     WebSocket closed with code 1006
+[18:36:39.998] Browser LOG     Attempting reconnect in 1043ms
+[18:36:49.074] Browser LOG     WebSocket closed with code 1006
+[18:36:49.074] Browser LOG     Attempting reconnect in 1746ms
+[18:36:56.063] Browser LOG     WebSocket closed with code 1006
+[18:36:56.063] Browser LOG     Attempting reconnect in 5872ms
+[18:37:11.066] Browser LOG     WebSocket closed with code 1006
+[18:37:11.077] Browser LOG     Attempting reconnect in 6394ms
+[18:37:19.062] Browser LOG     WebSocket closed with code 1006
+[18:37:19.062] Browser LOG     Attempting reconnect in 23006ms
+[18:37:29.704] Server  ERROR   ⨯ TypeError: fetch failed
+[19:47:14.955] Browser LOG     WebSocket closed with code 1006
+[19:47:14.956] Browser LOG     Attempting reconnect in 8203ms
+[19:47:16.063] Browser LOG     WebSocket reconnected at t=70297.2s after disconnect due to closed with code 1006
+[19:52:22.063] Browser LOG     WebSocket closed with code 1006
+[19:52:22.063] Browser LOG     Attempting reconnect in 576ms
+[19:52:25.070] Browser LOG     WebSocket reconnected at t=70606s after disconnect due to closed with code 1006
+[19:58:11.073] Browser LOG     Attempting reconnect in 77ms
+[19:58:21.068] Browser LOG     WebSocket closed with code 1006
+[19:58:21.068] Browser LOG     Attempting reconnect in 1018ms
+[19:58:24.063] Browser LOG     WebSocket reconnected at t=70964.4s after disconnect due to InactiveServer
+[20:04:25.068] Browser LOG     Attempting reconnect in 56ms
+[20:04:35.075] Browser LOG     WebSocket closed with code 1006
+[20:04:35.075] Browser LOG     Attempting reconnect in 2546ms
+[20:04:39.072] Browser LOG     WebSocket reconnected at t=71339.4s after disconnect due to InactiveServer
+[20:10:40.067] Browser LOG     Attempting reconnect in 149ms
+[20:10:50.059] Browser LOG     WebSocket closed with code 1006
+[20:10:50.059] Browser LOG     Attempting reconnect in 1703ms
+[20:10:53.066] Browser LOG     WebSocket reconnected at t=71713.3s after disconnect due to InactiveServer
+[20:16:54.071] Browser LOG     Attempting reconnect in 147ms
+[20:17:04.070] Browser LOG     WebSocket closed with code 1006
+[20:17:04.070] Browser LOG     Attempting reconnect in 2620ms
+[20:17:08.059] Browser LOG     WebSocket reconnected at t=72088.4s after disconnect due to InactiveServer
+[20:23:09.070] Browser LOG     Attempting reconnect in 124ms
+[20:23:19.067] Browser LOG     WebSocket closed with code 1006
+[20:23:19.067] Browser LOG     Attempting reconnect in 2202ms
+[20:23:23.064] Browser LOG     WebSocket reconnected at t=72463.4s after disconnect due to InactiveServer
+[21:08:37.143] Browser LOG     WebSocket closed with code 1006
+[21:08:37.143] Browser LOG     Attempting reconnect in 724ms
+[21:08:40.078] Browser LOG     WebSocket reconnected at t=75180.5s after disconnect due to closed with code 1006

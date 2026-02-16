@@ -27,7 +27,10 @@ export function MerchantDashboard({ merchantId }: MerchantDashboardProps = {}) {
   }, [merchantId, selectedMerchantId, setSelectedMerchant]);
 
   // Query merchants and data for selected merchant
-  const merchants = useQuery(api.queries.merchants.listMerchants);
+  const merchants = useQuery(
+    api.queries.merchants.listMerchants,
+    { paginationOpts: { numItems: 100, cursor: null } }
+  );
   const selectedMerchant = useQuery(
     api.queries.merchants.getMerchant,
     activeMerchantId ? { merchantId: activeMerchantId } : 'skip'
@@ -51,7 +54,7 @@ export function MerchantDashboard({ merchantId }: MerchantDashboardProps = {}) {
   }
 
   // Empty state - first time user (no merchants)
-  if (merchants.length === 0) {
+  if (merchants.page.length === 0) {
     return <EmptyState />;
   }
 

@@ -8,10 +8,16 @@
 
 import { mutation } from "../_generated/server";
 import { v } from "convex/values";
-import { encrypt, decrypt } from "../lib/encryption";
+import { encrypt, decrypt } from "@/shared/encryption/";
 import { gatewayValidator } from "../validators";
 import { createReplicationEvent } from "../lib/replication";
-import { notFound, assertExists, safeExecute, ErrorCodes, encryptionError } from "../lib/errors";
+import {
+  notFound,
+  assertExists,
+  safeExecute,
+  ErrorCodes,
+  encryptionError
+} from "../lib/errors";
 
 /**
  * Add a new gateway connection for a merchant.
@@ -55,29 +61,40 @@ export const addConnection = mutation({
 });
 
 /**
- * Update an existing gateway connection's webhook secret.
+ * Update gateway connection fields (webhook secret and/or active status).
+ * Similar to merchant update pattern.
  */
 export const updateConnection = mutation({
   args: {
     connectionId: v.id("gatewayConnections"),
-    webhookSecret: v.string(),
+    webhookSecret: v.optional(v.string()),
+    isActive: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     return await safeExecute(async () => {
       const connection = await ctx.db.get(args.connectionId);
       assertExists(connection, "Gateway connection", args.connectionId.toString());
 
-      // Encrypt the new webhook secret
-      const encrypted = await encrypt(args.webhookSecret).catch(err => {
-        throw encryptionError(`Failed to encrypt webhook secret: ${err.message}`, 'encrypt');
-      });
+      const updates: any = {};
 
-      await ctx.db.patch(args.connectionId, {
-        webhookSecretEncrypted: encrypted,
-      });
+      // Update webhook secret if provided
+      if (args.webhookSecret !== undefined) {
+        const encrypted = await encrypt(args.webhookSecret).catch(err => {
+          throw encryptionError(`Failed to encrypt webhook secret: ${err.message}`, 'encrypt');
+        });
+        updates.webhookSecretEncrypted = encrypted;
+      }
 
+      // Update active status if provided
+      if (args.isActive !== undefined) {
+        updates.isActive = args.isActive;
+      }
+
+      // Apply updates
+      await ctx.db.patch(args.connectionId, updates);
+      
       // Create replication event with updated data
-      const updatedData = { ...connection, webhookSecretEncrypted: encrypted };
+      const updatedData = { ...connection, ...updates };
       await createReplicationEvent(
         ctx,
         "gatewayConnections",
@@ -157,8 +174,7 @@ export const deleteConnection = mutation({
  */
 export const getDecryptedSecret = mutation({
   args: {
-    merchantId: v.id("merchants"),
-    gateway: gatewayValidator,
+    gatewayConnectionId: v.id("gatewayConnections"),
   },
   handler: async (ctx, args) => {
     return await safeExecute(async () => {
@@ -166,15 +182,14 @@ export const getDecryptedSecret = mutation({
         .query("gatewayConnections")
         .filter((q) =>
           q.and(
-            q.eq(q.field("merchantId"), args.merchantId),
-            q.eq(q.field("gateway"), args.gateway),
+            q.eq(q.field("_id"), args.gatewayConnectionId),
             q.eq(q.field("isActive"), true)
           )
         )
         .first();
 
       if (!connection) {
-        throw notFound(`Active ${args.gateway} connection for merchant`, args.merchantId.toString());
+        throw notFound(`Active gateway connection for merchant`, args.gatewayConnectionId.toString());
       }
 
       // Decrypt the webhook secret

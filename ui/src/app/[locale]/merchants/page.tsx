@@ -39,7 +39,10 @@ export default function MerchantsPage() {
   const t = useTranslations('MerchantsPage');
   const tCommon = useTranslations('Common');
 
-  const merchants = useQuery(api.queries.merchants.listMerchants);
+  const merchants = useQuery
+    (api.queries.merchants.listMerchants,
+      { paginationOpts: { numItems: 100, cursor: null } }
+    );
   const createMerchant = useMutation(api.mutations.merchants.createMerchant);
   const updateMerchant = useMutation(api.mutations.merchants.updateMerchant);
   const deleteMerchant = useMutation(api.mutations.merchants.deleteMerchant);

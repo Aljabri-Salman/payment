@@ -54,9 +54,9 @@ __turbopack_context__.s([
     "preloadAuthQuery",
     ()=>preloadAuthQuery
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$convex$2d$dev$2f$better$2d$auth$2f$dist$2f$nextjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@convex-dev/better-auth/dist/nextjs/index.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$bun$2f40$convex$2d$dev$2b$better$2d$auth$40$0$2e$10$2e$10$2b$94a8400dca04ee76$2f$node_modules$2f40$convex$2d$dev$2f$better$2d$auth$2f$dist$2f$nextjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/.bun/@convex-dev+better-auth@0.10.10+94a8400dca04ee76/node_modules/@convex-dev/better-auth/dist/nextjs/index.js [app-route] (ecmascript)");
 ;
-const { handler, preloadAuthQuery, isAuthenticated, getToken, fetchAuthQuery, fetchAuthMutation, fetchAuthAction } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$convex$2d$dev$2f$better$2d$auth$2f$dist$2f$nextjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["convexBetterAuthNextJs"])({
+const { handler, preloadAuthQuery, isAuthenticated, getToken, fetchAuthQuery, fetchAuthMutation, fetchAuthAction } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$bun$2f40$convex$2d$dev$2b$better$2d$auth$40$0$2e$10$2e$10$2b$94a8400dca04ee76$2f$node_modules$2f40$convex$2d$dev$2f$better$2d$auth$2f$dist$2f$nextjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["convexBetterAuthNextJs"])({
     convexUrl: ("TURBOPACK compile-time value", "https://focused-hound-964.convex.cloud"),
     convexSiteUrl: ("TURBOPACK compile-time value", "https://focused-hound-964.convex.site")
 });

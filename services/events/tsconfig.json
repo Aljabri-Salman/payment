@@ -27,7 +27,8 @@
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@/convex/*": ["../../convex/*"]
+      "@/convex/*": ["../../convex/*"],
+      "@/shared/*": ["../../shared/*"]
     }
   }
 }

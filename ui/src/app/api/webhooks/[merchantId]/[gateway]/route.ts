@@ -14,9 +14,9 @@
 import { NextRequest } from "next/server";
 import { randomUUID } from "crypto";
 import { SUPPORTED_GATEWAYS } from "@/convex/types";
-import { WebhookHandler } from "@/lib/webhooks/handler";
-import { getSignatureHeader } from "@/lib/webhooks/parsers";
-import { logger } from "@/lib/webhooks/logger";
+import { WebhookHandler } from "@/shared/webhooks/handler";
+import { getSignatureHeader } from "@/shared/webhooks/parsers";
+import { logger } from "@/shared/webhooks/logger";
 import {
   validateGateway,
   validateContentLength,

@@ -61,6 +61,16 @@ export interface GatewayConnectionFormProps {
 }
 
 /**
+ * Props for GatewayConnectionEditForm component
+ */
+export interface GatewayConnectionEditFormProps {
+  connection: GatewayConnectionDisplay;
+  merchantId: Id<'merchants'>;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
+
+/**
  * Gateway option for Select dropdown
  */
 export interface GatewayOption {

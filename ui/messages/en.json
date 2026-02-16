@@ -128,6 +128,8 @@
   "GatewayConnectionForm": {
     "title": "Add Gateway Connection",
     "description": "Connect a payment gateway to receive webhook notifications and process payments.",
+    "editTitle": "Edit Gateway Connection",
+    "editDescription": "Update gateway connection settings.",
     "fields": {
       "gateway": {
         "label": "Payment Gateway",
@@ -137,17 +139,25 @@
       "webhookSecret": {
         "label": "Webhook Secret",
         "placeholder": "Enter webhook secret key",
-        "description": "The secret key used to verify webhook signatures from the gateway"
+        "description": "The secret key used to verify webhook signatures from the gateway",
+        "editPlaceholder": "Leave empty to keep current secret",
+        "editDescription": "Enter new secret to update, or leave empty to keep current"
+      },
+      "isActive": {
+        "label": "Active Status",
+        "description": "Enable or disable this gateway connection"
       }
     },
     "actions": {
       "submit": "Add Connection",
+      "update": "Update Connection",
       "cancel": "Cancel"
     },
     "errors": {
       "gatewayRequired": "Please select a payment gateway",
       "webhookSecretRequired": "Webhook secret is required",
-      "createFailed": "Failed to create gateway connection. Please try again."
+      "createFailed": "Failed to create gateway connection. Please try again.",
+      "updateFailed": "Failed to update gateway connection. Please try again."
     }
   }
 }

@@ -8,6 +8,34 @@
       "when": 1770810294034,
       "tag": "0000_empty_cobalt_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1770818856464,
+      "tag": "0001_stiff_menace",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1770820153602,
+      "tag": "0002_busy_texas_twister",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1770822189673,
+      "tag": "0003_lonely_hellcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1770832129400,
+      "tag": "0004_solid_bastion",
+      "breakpoints": true
     }
   ]
 }
